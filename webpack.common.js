@@ -68,41 +68,6 @@ module.exports = {
                 use: ['cache-loader', 'ts-loader']
             },
             {
-                test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, 'webapp'),
-                    path.resolve(__dirname, 'platform')
-                ],
-                use: [
-                    {
-                        loader: 'cache-loader'
-                    },
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['@babel/preset-env']
-                        }
-                    }
-                ]
-            },
-            {
-                test: /\.js$/,
-                include: [
-                    path.resolve(__dirname, 'webapp'),
-                    path.resolve(__dirname, 'platform')
-                ],
-                enforce: 'post',
-                use: [
-                    {
-                        loader: 'cache-loader'
-                    },
-                    {
-                        loader: 'istanbul-instrumenter-loader',
-                        options: { esModules: true }
-                    }
-                ]
-            },
-            {
                 test: /\.(html)$/,
                 use: ['cache-loader', 'html-loader']
             },

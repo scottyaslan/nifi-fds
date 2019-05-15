@@ -58,6 +58,24 @@ module.exports = merge(commonConfig, {
     module: {
         rules: [
             {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'webapp'),
+                    path.resolve(__dirname, 'platform')
+                ],
+                use: [
+                    {
+                        loader: 'cache-loader'
+                    },
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                ]
+            },
+            {
                 test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
                 loader: '@ngtools/webpack'
             }

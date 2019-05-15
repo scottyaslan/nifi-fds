@@ -55,6 +55,33 @@ module.exports = merge(commonConfig, {
         port: 28080
     },
 
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                include: [
+                    path.resolve(__dirname, 'webapp'),
+                    path.resolve(__dirname, 'platform')
+                ],
+                use: [
+                    {
+                        loader: 'cache-loader'
+                    },
+                    {
+                        loader: 'istanbul-instrumenter-loader',
+                        options: { esModules: true }
+                    },
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env']
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+
     plugins: [
         // Hot Module Replacement
         new webpack.HotModuleReplacementPlugin(),
@@ -72,17 +99,17 @@ module.exports = merge(commonConfig, {
                 const licTextArray = modules.map((lic) => {
                     if (lic.licenseText && lic.licenseId) {
                         const license = lic.licenseText.replace(/\n/gm, '\n\t');
-                        const licText =`This product bundles '${lic.packageJson.name}' which is available under a(n) ${lic.licenseId} license.\n\n\t${license}`;
+                        const licText = `This product bundles '${lic.packageJson.name}' which is available under a(n) ${lic.licenseId} license.\n\n\t${license}`;
 
                         return licText;
                     } else {
                         console.log('\n**********************\n');
                         console.log(lic.packageJson);
                         if (lic.packageJson.license) {
-                            const missingLicenseText = `*** No license text found ***\n`
-                            const licText =`This product bundles '${lic.packageJson.name}' which is available under a(n) ${lic.packageJson.license} license.\n\t${missingLicenseText}`;
+                            const missingLicenseText = `*** No license text found ***\n`;
+                            const licText = `This product bundles '${lic.packageJson.name}' which is available under a(n) ${lic.packageJson.license} license.\n\t${missingLicenseText}`;
 
-                            return licText
+                            return licText;
                         } else {
                             return `\n\n!!! No license information found for ${lic.packageJson.name} !!!\n\n`;
                         }
