@@ -21,6 +21,7 @@ const webpackAlias = require('./webpack.alias');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const isDev = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     // Deployment target
@@ -29,7 +30,7 @@ module.exports = {
     // Starting point of building the bundles
     entry: {
         // JS files
-        'fds-demo.bundle.min': path.resolve(__dirname, 'webapp/fds-bootstrap.js'),
+        'fds-demo.bundle.min': isDev ? path.resolve(__dirname, 'webapp/fds-bootstrap.js') : path.resolve(__dirname, 'webapp/fds-bootstrap.aot.ts'),
 
         // SCSS files
         'fds-demo.styles.min': [

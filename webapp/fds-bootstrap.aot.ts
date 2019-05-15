@@ -18,37 +18,46 @@
 import 'core-js';
 import 'zone.js';
 import 'hammerjs';
-import $ from 'jquery';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import * as $ from 'jquery';
+import {platformBrowser} from '@angular/platform-browser';
 import {
+    enableProdMode,
     TRANSLATIONS,
     TRANSLATIONS_FORMAT,
     LOCALE_ID
 } from '@angular/core';
-import FdsModule from 'webapp/fds.module.js';
+// @ts-ignore
+import FdsModuleNgFactory from 'webapp/fds.module.ngfactory.js';
+
+// Comment out this line when developing to assert for unidirectional data flow
+enableProdMode();
 
 // Get the locale id from the global
-var locale = navigator.language;
+const locale = navigator.language;
 
-var providers = [];
+let providers: any[];
+providers = [];
 
 // No locale or U.S. English: no translation providers so go ahead and bootstrap the app
 if (!locale || locale === 'en-US') {
-    platformBrowserDynamic().bootstrapModule(FdsModule, {providers: providers});
+// @ts-ignore
+    platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
 } else { //load the translation providers and bootstrap the module
     var translationFile = '/locale/messages.' + locale + '.xlf';
 
     $.ajax({
         url: translationFile
-    }).done(function (translations) {
+    }).done(function (translations: any) {
         // add providers if translation file for locale is loaded
         if (translations) {
             providers.push({provide: TRANSLATIONS, useValue: translations});
             providers.push({provide: TRANSLATIONS_FORMAT, useValue: 'xlf'});
             providers.push({provide: LOCALE_ID, useValue: locale});
         }
-        platformBrowserDynamic().bootstrapModule(FdsModule, {providers: providers});
+        // @ts-ignore
+        platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
     }).fail(function () {
-        platformBrowserDynamic().bootstrapModule(FdsModule, {providers: providers});
+        // @ts-ignore
+        platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
     });
 }

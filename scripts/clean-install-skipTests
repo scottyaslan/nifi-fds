@@ -26,6 +26,7 @@ cp package-lock.json ./target/frontend-working-directory/package-lock.json
 cp README.md ./target/frontend-working-directory/README.md
 cp LICENSE ./target/frontend-working-directory/LICENSE
 cp NOTICE ./target/frontend-working-directory/NOTICE
+cp tsconfig.json ./target/frontend-working-directory/tsconfig.json
 cp ./webpack.*.js ./target/frontend-working-directory/
 cp ./karma.conf.js ./target/frontend-working-directory/karma.conf.js
 cp ./karma-test-shim.js ./target/frontend-working-directory/karma-test-shim.js

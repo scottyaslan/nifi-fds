@@ -18,9 +18,13 @@
  *       UNAVAILABILITY, OR LOSS OR CORRUPTION OF DATA.
  */
 
+const path = require('path');
 const merge = require('webpack-merge');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const ngw = require('@ngtools/webpack');
+const cssnano = require('cssnano');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 const commonConfig = require('./webpack.common');
 
@@ -29,15 +33,46 @@ module.exports = merge(commonConfig, {
     mode: 'production',
 
     // Source maps
-    devtool: 'source-map',
+    devtool: false,
 
     optimization: {
+        noEmitOnErrors: true,
+        runtimeChunk: 'single',
         minimizer: [
             // Minify JavaScript
             new TerserJSPlugin({}),
 
             // Minify CSS
-            new OptimizeCSSAssetsPlugin({})
+            new OptimizeCSSAssetsPlugin({
+                cssProcessor: cssnano,
+                cssProcessorOptions: {
+                    discardComments: {
+                        removeAll: true
+                    }
+                },
+                canPrint: false
+            })
         ],
     },
+
+    module: {
+        rules: [
+            {
+                test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+                loader: '@ngtools/webpack'
+            }
+        ]
+    },
+
+    plugins: [
+        new ngw.AngularCompilerPlugin({
+            tsConfigPath: path.resolve(__dirname, 'tsconfig.json'),
+            entryModule: path.resolve(__dirname, 'webapp', 'fds.module#FdsModule')
+        }),
+
+        new CompressionPlugin({
+            algorithm: 'gzip',
+            test: /\.min.js$|\.min.css$|runtime.js$/
+        })
+    ]
 });
