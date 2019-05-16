@@ -29,7 +29,7 @@
         "watch": "npm run webpack:development && ./node_modules/.bin/webpack-dev-server --config webpack.dev.js",
         "webpack:analyze": "./node_modules/.bin/webpack-bundle-analyzer webpack-build-log.json ./",
         "webpack:development": "cross-env NODE_ENV=development && ./node_modules/.bin/webpack --config webpack.dev.js",
-        "webpack:production": "cross-env NODE_ENV=production && ./node_modules/.bin/webpack --config webpack.prod.js --json --progress --profile > webpack-build-log.json",
+        "webpack:production": "cross-env NODE_ENV=production && npm run lint && ./node_modules/.bin/webpack --config webpack.prod.js --json --progress --profile > webpack-build-log.json",
         "eslint": "./node_modules/.bin/eslint './webapp/**/*.js' './platform/**/*.js'",
         "stylelint": "./node_modules/.bin/stylelint './webapp/theming/**/*.scss' './platform/**/*.scss'",
         "lint": "npm run eslint && npm run stylelint"

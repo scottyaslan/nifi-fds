@@ -37,7 +37,6 @@ module.exports = merge(commonConfig, {
 
     optimization: {
         noEmitOnErrors: true,
-        runtimeChunk: 'single',
         minimizer: [
             // Minify JavaScript
             new TerserJSPlugin({}),
@@ -65,18 +64,18 @@ module.exports = merge(commonConfig, {
                 ],
                 use: [
                     {
-                        loader: 'cache-loader'
-                    },
-                    {
                         loader: 'babel-loader',
                         options: {
                             presets: ['@babel/preset-env']
                         }
+                    },
+                    {
+                        loader: '@ngtools/webpack'
                     }
                 ]
             },
             {
-                test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+                test: /\.tsx?$/,
                 loader: '@ngtools/webpack'
             }
         ]
@@ -85,7 +84,7 @@ module.exports = merge(commonConfig, {
     plugins: [
         new ngw.AngularCompilerPlugin({
             tsConfigPath: path.resolve(__dirname, 'tsconfig.json'),
-            entryModule: path.resolve(__dirname, 'webapp', 'fds.module#FdsModule')
+            entryModule: path.resolve(__dirname, 'webapp/fds.module#FdsModule')
         }),
 
         new CompressionPlugin({

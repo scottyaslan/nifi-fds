@@ -24,13 +24,14 @@ import {
     enableProdMode,
     TRANSLATIONS,
     TRANSLATIONS_FORMAT,
-    LOCALE_ID
+    LOCALE_ID,
+    PlatformRef
 } from '@angular/core';
-// @ts-ignore
-import FdsModuleNgFactory from 'webapp/fds.module.ngfactory.js';
+import FdsModule from 'webapp/fds.module.js';
 
-// Comment out this line when developing to assert for unidirectional data flow
 enableProdMode();
+
+const platform: PlatformRef = platformBrowser();
 
 // Get the locale id from the global
 const locale = navigator.language;
@@ -40,8 +41,7 @@ providers = [];
 
 // No locale or U.S. English: no translation providers so go ahead and bootstrap the app
 if (!locale || locale === 'en-US') {
-// @ts-ignore
-    platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
+    platform.bootstrapModule(FdsModule, {providers: providers});
 } else { //load the translation providers and bootstrap the module
     var translationFile = '/locale/messages.' + locale + '.xlf';
 
@@ -54,10 +54,8 @@ if (!locale || locale === 'en-US') {
             providers.push({provide: TRANSLATIONS_FORMAT, useValue: 'xlf'});
             providers.push({provide: LOCALE_ID, useValue: locale});
         }
-        // @ts-ignore
-        platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
+        platform.bootstrapModule(FdsModule, {providers: providers});
     }).fail(function () {
-        // @ts-ignore
-        platformBrowser().bootstrapModuleFactory(FdsModuleNgFactory, {useJit: false, providers: providers});
+        platform.bootstrapModule(FdsModule, {providers: providers});
     });
 }

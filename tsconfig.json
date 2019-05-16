@@ -18,26 +18,42 @@
     "//": "     UNAVAILABILITY, OR LOSS OR CORRUPTION OF DATA.",
     "//": "",
     "compilerOptions": {
-        "target": "es5",
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "typeRoots": ["node_modules/@types"],
-        "moduleResolution": "node",
         "baseUrl": ".",
+        "allowJs": true,
+        "target": "ES6",
+        "module": "ES6",
+        "moduleResolution": "node",
         "sourceMap": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "lib": ["es6", "dom"],
+        "typeRoots": ["node_modules/@types"],
         "paths": {
-            "services/*": ["webapp/services/*"],
-            "common/*": ["webapp/common/*"],
-            "components/*": ["webapp/components/*"]
-        },
-        "lib": ["es6", "dom"]
+            "@flow-design-system/core": ["platform/core/flow-design-system.module.js"],
+            "@flow-design-system/dialogs": ["platform/core/dialogs/fds-dialogs.module.js"],
+            "@flow-design-system/dialog-component": ["platform/core/dialogs/fds-dialog.component.js"],
+            "@flow-design-system/dialog-service": ["platform/core/dialogs/services/dialog.service.js"],
+            "@flow-design-system/confirm-dialog-component": ["platform/core/dialogs/confirm-dialog/confirm-dialog.component.js"],
+            "@flow-design-system/snackbars": ["platform/core/snackbars/fds-snackbars.module.js"],
+            "@flow-design-system/snackbar": ["platform/core/snackbars/fds-snackbar.component.js"],
+            "@flow-design-system/snackbar-service": ["platform/core/snackbars/services/snackbar.service.js"],
+            "@flow-design-system/coaster": ["platform/core/snackbars/coaster/coaster.component.js"],
+            "@flow-design-system/common/storage-service": ["platform/core/common/services/fds-storage.service.js"],
+            "@flow-design-system/common/animations": ["platform/core/common/fds.animations.js"]
+        }
     },
+    "include": [
+        "webapp/**/*",
+        "platform/**/*"
+    ],
     "exclude": [
-        "node_modules",
-        "target",
-        "coverage",
-        ".cache-loader"
-    ]
+        //        "node_modules",
+        "**/*.spec.*",
+        "webapp/fds-bootstrap.js"
+    ],
+    //    "angularCompilerOptions": {
+    //        "genDir": "aot"
+    //    }
 }

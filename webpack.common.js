@@ -30,7 +30,7 @@ module.exports = {
     // Starting point of building the bundles
     entry: {
         // JS files
-        'fds-demo.bundle.min': isDev ? path.resolve(__dirname, 'webapp/fds-bootstrap.js') : path.resolve(__dirname, 'webapp/fds-bootstrap.aot.ts'),
+        'fds-demo.bundle.min': isDev ? path.resolve(__dirname, 'webapp/fds-bootstrap.aot.ts') : path.resolve(__dirname, 'webapp/fds-bootstrap.js'),
 
         // SCSS files
         'fds-demo.styles.min': [
@@ -60,14 +60,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                include: [
-                    path.resolve(__dirname, 'webapp'),
-                    path.resolve(__dirname, 'platform')
-                ],
-                use: ['cache-loader', 'ts-loader']
-            },
-            {
                 test: /\.(html)$/,
                 use: ['cache-loader', 'html-loader']
             },
@@ -95,12 +87,14 @@ module.exports = {
     },
 
     optimization: {
+        runtimeChunk: 'single',
         splitChunks: {
+            chunks: 'all',
+            maxInitialRequests: Infinity,
+            minSize: 0,
             cacheGroups: {
-                // Create a separated file for dependencies
                 vendor: {
-                    chunks: 'initial',
-                    test: path.resolve(__dirname, 'node_modules'),
+                    test: /[\\/]node_modules[\\/]/,
                     name: 'fds-demo.vendor.min',
                     enforce: true
                 }

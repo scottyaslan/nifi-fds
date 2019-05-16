@@ -58,6 +58,14 @@ module.exports = merge(commonConfig, {
     module: {
         rules: [
             {
+                test: /\.tsx?$/,
+                include: [
+                    path.resolve(__dirname, 'webapp'),
+                    path.resolve(__dirname, 'platform')
+                ],
+                use: ['cache-loader', 'ts-loader']
+            },
+            {
                 test: /\.js$/,
                 include: [
                     path.resolve(__dirname, 'webapp'),
